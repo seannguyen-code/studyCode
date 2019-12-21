@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>REST API</title>
+</head>
+<body>
+        <ul id="todo-list">
+            <!-- gi do gi do -->
+        </ul>
+    
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script type="text/javascript">
+            var url = 'http://localhost:9081/todos';
+            
+            axios.get(url).then(function(res) {
+                var items = res.data;
+                render(items);
+            });
+            
+            axios.post(url, {"id":4,"content": "Learn AI"}).then(function(res) {
+                var items = res.data;
+                render(items);
+            });
+
+            axios.delete(url+"/4/").then(function(res) {
+                var items = res.data;
+                render(items);
+            });
+
+            function render(items) {
+                var htmlList = document.getElementById('todo-list');
+                var content = items.map(function(item) {
+                    return '<li>' + item .content+ '</li>';
+                });
+                htmlList.innerHTML = content.join("");
+            }
+        </script>
+</body>
+</html>
