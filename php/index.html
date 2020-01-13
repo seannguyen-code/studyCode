@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form">
+  <input type="file" name="fileToUpload" id="test"> <br>
+</form>
+<label for="gender">Gender: </label>
+<input type="radio" name="genderS" value="male" checked="checked">Male</input>
+<input type="radio" name="genderS" value="0">Female</input>
+
+<form >
+    <input type="text" id="test3" ><br>
+    <button id="run" >Run</button>
+</form>
+
+<script type="text/javascript">
+    
+
+    var test = document.getElementById("test")
+    var test2 = document.getElementById("test3")
+    var runBtn = document.getElementById('run')
+    
+    runBtn.addEventListener('click', runF)
+
+    function runF() {
+    test2.value = test.value.replace(/^.*[\\\/]/, '');
+    }
+
+    var radios = document.getElementsByName('genderS');
+    for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+        // do whatever you want with the checked radio
+        alert(radios[i].value);
+
+        // only one radio can be logically checked, don't check the rest
+        break;
+      }
+}
+</script>
+</body>
+</html>

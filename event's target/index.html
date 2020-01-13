@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Coder X</title>
+</head>
+<body>
+    <input id="new-item" type="text"/>
+    <button id ="add-btn" >Add</button>
+    <ul id="todo-list">
+        <!-- gi do gi do -->
+    </ul>
+
+    <script type="text/javascript">
+        var storageKey = 'todoList'
+        var dataString = localStorage.getItem(storageKey);      
+        var htmlList = document.getElementById('todo-list');
+        var input = document.getElementById('new-item');
+        var addBtn = document.getElementById('add-btn');
+
+        addBtn.addEventListener('click', addItem);
+        input.value = sessionStorage.getItem('draft');
+        input.addEventListener('change', updateSessionStorage);
+        htmlList.addEventListener('click', onListClicked);
+
+        var todoList;
+        if (dataString) {
+            todoList = JSON.parse(dataString);
+        }
+        else {
+            todoList = [];
+        }
+
+        function updateSessionStorage() {
+            sessionStorage.setItem('draft', input.value);
+        }
+
+        function onListClicked(event) {
+            var btn = event.target;
+            var i = parseInt(btn.dataset.id);
+            todoList.splice(i, 1);
+            render();
+            localStorage.setItem(storageKey, JSON.stringify(todoList));
+        }
+
+        function addItem() {
+            var newItem = input.value;
+            todoList.push(newItem);
+            render();
+            input.value = "";
+            //store data
+            localStorage.setItem(storageKey, JSON.stringify(todoList));
+        }
+
+        function render() {
+            var content = todoList.map(function(item, i) {
+                return '<li>' + item + ' <button data-id="'+ i + '">Delete</button></li>';
+            });
+
+            htmlList.innerHTML = content.join("");
+        }
+
+        render();
+
+    </script>
+</body>
+</html>
