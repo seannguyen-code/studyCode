@@ -1,0 +1,51 @@
+.album {
+  display: flex;
+  font-family: Arial, Helvetica, sans-serif;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.album-cover {
+  width: 128px;
+  height: 128px;
+  font-size: 22px;
+  color: #fff;
+  background-color: #ddd;
+  background-image: url("https://loremflickr.com/320/240");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.album-cover .overlay {
+  height: 100%;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.album .content {
+  margin: 0 8px;
+  padding: 0;
+}
+
+.album .content .song-title {
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.album .content .singer {
+  margin: 5px 0;
+  color: #999;
+}
+
+.album .content .count-view {
+  margin: 5px 0;
+  color: #999999;
+}
