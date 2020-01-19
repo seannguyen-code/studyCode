@@ -8,6 +8,7 @@
   background-image: url("https://loremflickr.com/320/240");
   background-size: cover;
   background-position: center;
+  margin: 8px 16px;
 }
 
 .album-square .overlay {
@@ -17,8 +18,18 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
+  transition: all 0.5s;
+}
+
+.album-square .overlay .fa-play-circle {
+  transform: scale(0.5);
+  transition: all 0.3s;
 }
 
 .album-square:hover .overlay {
   opacity: 1;
+}
+
+.album-square:hover .overlay .fa-play-circle {
+  transform: scale(1);
 }
