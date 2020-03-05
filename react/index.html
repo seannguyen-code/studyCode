@@ -20,14 +20,29 @@
       //   "React turtorials"
       // );
 
-      const Title = <div className="title">React turtorials</div>;
-      const Image = React.createElement("img", {
-        src: "https://i.picsum.photos/id/959/400/200.jpg"
-      });
+      // const Title = <div className="title">React turtorials</div>;
+      // const Image = React.createElement("img", {
+      //   src: "https://i.picsum.photos/id/959/400/200.jpg"
+      // });
 
-      const App = React.createElement("div", null, Title, Image);
+      const books = React.createElement(
+        "ul",
+        {
+          className: "bookList"
+        },
+        React.createElement("li", null, "Tôi là ai"),
+        React.createElement("li", null, "Lược Sử Vạn Vật"),
+        React.createElement("li", null, "Cộng Hòa"),
+        React.createElement("li", null, "Trí tuệ do thái"),
+        React.createElement("li", null, "Einstein cuộc đời và vũ trụ")
+      );
+
       const root = document.getElementById("root");
-      ReactDOM.render(App, root);
+      ReactDOM.render(books, root);
+
+      // const App = React.createElement("div", null, Title, Image);
+      // const root = document.getElementById("root");
+      // ReactDOM.render(App, root);
     </script>
   </body>
 </html>
