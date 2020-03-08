@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import TodoItem from './components/TodoItems';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import TodoItem from "./components/TodoItems";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
+        <TodoItem title="Mua yasuo" />
+        <TodoItem title="Tập chơi yasuo" />
+        <TodoItem title="Thông thạo 7 yasuo" />
+        <TodoItem title="Thách đầu yasuo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
           Learn React
         </a>
       </header>
