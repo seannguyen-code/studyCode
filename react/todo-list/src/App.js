@@ -4,21 +4,17 @@ import "./App.css";
 import TodoItem from "./components/TodoItems";
 
 function App() {
+  var todoItem = [
+    { title: "Mua yasuo", isComplete: true },
+    { title: "Tập chơi yasuo", isComplete: true },
+    { title: "Thông thạo 7 yasuo" },
+    { title: "Thách đấu yasuo" }
+  ];
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <TodoItem title="Mua yasuo" />
-        <TodoItem title="Tập chơi yasuo" />
-        <TodoItem title="Thông thạo 7 yasuo" />
-        <TodoItem title="Thách đầu yasuo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
+      {todoItem.map((item, index) => (
+        <TodoItem key={index} item={item} />
+      ))}
     </div>
   );
 }
