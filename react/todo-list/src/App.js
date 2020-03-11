@@ -12,9 +12,8 @@ function App() {
   ];
   return (
     <div className="App">
-      {todoItem.map((item, index) => (
-        <TodoItem key={index} item={item} />
-      ))}
+      {todoItem.length > 0 && todoItem.map((item, index) => <TodoItem key={index} item={item} />)}
+      {todoItem.length === 0 && "Nothing here."}
     </div>
   );
 }
