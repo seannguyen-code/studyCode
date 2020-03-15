@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./TrafficLight.css";
+import classNames from "classnames";
 
 const RED = 0;
 const ORANGE = 1;
@@ -8,7 +9,15 @@ const GREEN = 2;
 class TrafficLight extends Component {
   constructor() {
     super();
-    this.currentColor = RED;
+    this.state = {
+      currentColor: GREEN
+    };
+
+    setInterval(() => {
+      this.setState({
+        currentColor: this.getNextColor(this.state.currentColor)
+      });
+    }, 1000);
   }
 
   getNextColor(color) {
@@ -25,11 +34,24 @@ class TrafficLight extends Component {
   }
 
   render() {
+    const { currentColor } = this.state;
     return (
       <div className="TrafficLight">
-        <div className="bulb red" />
-        <div className="bulb orange" />
-        <div className="bulb green" />
+        <div
+          className={classNames("bulb", "red", {
+            active: currentColor === RED
+          })}
+        />
+        <div
+          className={classNames("bulb", "orange", {
+            active: currentColor === ORANGE
+          })}
+        />
+        <div
+          className={classNames("bulb", "green", {
+            active: currentColor === GREEN
+          })}
+        />
       </div>
     );
   }
