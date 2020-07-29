@@ -1,3 +1,2 @@
-# studyCode
 # ????
-# Mi vao` day lam` gi` the 
+# Mi vao day lam gi the 
