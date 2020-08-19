@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Col } from 'reactstrap';
-import App from '../App';
+import {
+	Collapse,
+	Navbar,
+	NavbarToggler,
+	NavbarBrand,
+	Nav,
+	NavItem,
+	NavLink,
+	Container,
+} from 'reactstrap';
 
 class AppNavbar extends Component {
 	state = {
@@ -23,7 +31,9 @@ class AppNavbar extends Component {
 						<Collapse isOpen={this.state.isOpen} navbar>
 							<Nav className="ml-auto" navbar>
 								<NavItem>
-									<NavLink href="https://github.com/nguyenhaison1999">Github</NavLink>
+									<NavLink href="https://github.com/nguyenhaison1999">
+										Github
+									</NavLink>
 								</NavItem>
 							</Nav>
 						</Collapse>
@@ -33,4 +43,5 @@ class AppNavbar extends Component {
 		);
 	}
 }
+
 export default AppNavbar;
