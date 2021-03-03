@@ -4,17 +4,20 @@
 	"description": "Using MERN stack",
 	"main": "server.js",
 	"scripts": {
-		"client-install": "npm install --prefix client",
 		"start": "node server.js",
 		"server": "nodemon server.js",
 		"client": "npm start --prefix client",
+		"client-install": "cd client && npm install",
+		"server-install": "npm install",
+		"install-all": "concurrently \"npm run client-install\" \"npm run server-install\" ",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+		"heroku-postbuild": "cd client && npm install && npm run build"
 	},
 	"author": "Nguyen Son",
 	"license": "MIT",
 	"dependencies": {
 		"concurrently": "^5.3.0",
+		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"mongoose": "^5.9.27"
 	},
