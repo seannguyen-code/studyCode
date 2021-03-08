@@ -1,0 +1,28 @@
+#objectBtnsWrapper {
+    background-color: rgb(93, 88, 88);
+    width: auto;
+    padding: 5px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#objectsTitle {
+    color: rgb(231, 228, 228);
+    font-size: 17px;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+#objectBtns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: auto;
+    margin: auto;
+}
+
+.btns {
+    margin: auto 5px auto;
+}

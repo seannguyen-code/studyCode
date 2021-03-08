@@ -42,6 +42,7 @@ const toggleMode = (mode) => {
       canvas.renderAll();
     } else {
       currentMode = modes.drawing;
+      canvas.freeDrawingBrush.color = color;
       canvas.isDrawingMode = true;
       canvas.renderAll();
     }
@@ -69,6 +70,43 @@ const setPanEvents = (canvas) => {
       canvas.setCursor("grab");
       canvas.renderAll();
     }
+    /*
+    else if (currentMode === modes.drawing) {
+      let x = event.e.clientX - canvas._offset.left;
+      let y = event.e.clientY - canvas._offset.top;
+
+      let circle = new fabric.Circle({
+        left: x,
+        top: y,
+        fill: "red",
+        originX: "center",
+        originY: "center",
+        hasControls: false,
+        hasBorders: false,
+        lockMovementX: true,
+        lockMovementY: true,
+        radius: 5,
+        hoverCursor: "default",
+      });
+
+      canvas.add(circle);
+
+      if (point1 === undefined) {
+        point1 = new fabric.Point(x, y);
+      } else {
+        canvas.add(
+          new fabric.Line([point1.x, point1.y, x, y], {
+            stroke: "blue",
+            // hasControls: false,
+            // hasBorders: false,
+            // lockMovementX: true,
+            // lockMovementY: true,
+            hoverCursor: "default",
+          })
+        );
+        point1 = undefined;
+      }
+    } */
   });
 
   // mouse up
@@ -78,9 +116,57 @@ const setPanEvents = (canvas) => {
     canvas.renderAll();
   });
 };
+const setColorListener = () => {
+  const picker = document.getElementById("colorPicker");
+  picker.addEventListener("change", (event) => {
+    // console.log(event.target.value);
+    color = event.target.value;
+  });
+};
 
+const clearCanvas = (canvas) => {
+  canvas.getObjects().forEach((obj) => {
+    if (obj !== canvas.backgroundImage) {
+      canvas.remove(obj);
+    }
+  });
+};
+
+const createLine = (canvas) => {
+  console.log(200);
+  const canvCenter = canvas.getCenter();
+  const line = new fabric.Line([50, 100, 200, 200], {
+    left: 170,
+    top: 150,
+    stroke: "red",
+  });
+  canvas.add(line);
+  canvas.renderAll();
+};
+
+const createRect = (canvas) => {
+  const canvCenter = canvas.getCenter();
+  const rect = new fabric.Rect({
+    width: 100,
+    height: 100,
+    fill: "green",
+    left: canvCenter.left,
+    top: canvCenter.top,
+    originX: "center",
+    originY: "center",
+  });
+  canvas.add(rect);
+  canvas.renderAll();
+};
+
+const createCirc = (canvas) => {};
+
+// ---------------------------- **** ---------------------
+// Runtime
 const canvas = initCanvas("canvas");
 let mousePressed = false;
+let color = "#000000";
+let point1;
 
 // Modes
 let currentMode;
@@ -92,3 +178,5 @@ const modes = {
 setBackground("https://picsum.photos/500", canvas);
 
 setPanEvents(canvas);
+
+setColorListener();
