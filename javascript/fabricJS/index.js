@@ -151,15 +151,66 @@ const createRect = (canvas) => {
     height: 100,
     fill: "green",
     left: canvCenter.left,
-    top: canvCenter.top,
+    top: -50,
     originX: "center",
     originY: "center",
+    cornerColor: "white",
+    // objectCaching: false,
   });
   canvas.add(rect);
   canvas.renderAll();
+
+  rect.animate("top", canvCenter.top, {
+    onChange: canvas.renderAll.bind(canvas),
+  });
+
+  rect.on("selected", () => {
+    rect.set("fill", "white");
+    canvas.renderAll();
+  });
+  rect.on("deselected", () => {
+    rect.set("fill", "green");
+    canvas.renderAll();
+  });
 };
 
-const createCirc = (canvas) => {};
+const createCirc = (canvas) => {
+  const canvCenter = canvas.getCenter();
+  const circle = new fabric.Circle({
+    radius: 50,
+    fill: "orange",
+    left: canvCenter.left,
+    top: -50,
+    originX: "center",
+    originY: "center",
+    cornerColor: "white",
+    // lockScalingX: true,
+    // lockScalingY: true,
+    // objectCaching: false,
+  });
+  canvas.add(circle);
+  canvas.renderAll();
+
+  circle.animate("top", canvas.height - 50, {
+    onChange: canvas.renderAll.bind(canvas),
+    onComplete: () => {
+      circle.animate("top", canvCenter.top, {
+        onChange: canvas.renderAll.bind(canvas),
+        easing: fabric.util.ease.easeOutBounce,
+        duration: 500,
+      });
+    },
+  });
+
+  circle.on("selected", () => {
+    circle.set("fill", "white");
+    canvas.renderAll();
+  });
+  circle.on("deselected", () => {
+    circle.set("fill", "orange");
+    canvas.renderAll();
+  });
+};
 
 // ---------------------------- **** ---------------------
 // Runtime
