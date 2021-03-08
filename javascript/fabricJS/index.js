@@ -56,7 +56,6 @@ const setPanEvents = (canvas) => {
     if (mousePressed && currentMode === modes.pan) {
       canvas.setCursor("grab");
       canvas.renderAll();
-      // console.log(1);
       const mEvent = event.e;
       const delta = new fabric.Point(mEvent.movementX, mEvent.movementY);
       canvas.relativePan(delta);
