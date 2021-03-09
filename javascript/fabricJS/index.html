@@ -12,16 +12,30 @@
     <button onclick="toggleMode(modes.pan)">Toggle Pan</button>
     <button onclick="toggleMode(modes.drawing)">Toggle Drawing</button>
     <input id="colorPicker" value="#3399FF80" data-jscolor="{}" />
-    <button onclick="clearCanvas(canvas)">Clear</button>
+    <button onclick="clearCanvas(canvas, svgState)">Clear</button>
+    <button onclick="restoreCanvas(canvas, svgState, bgURL)">Restore</button>
     <canvas id="canvas"></canvas>
 
     <div id="objectBtnsWrapper">
-      <div id="objectBtns">
+      <div class="objectBtns">
         <p id="objectsTitle">Objects</p>
         <button class="btns" onclick="createLine(canvas)">Line</button>
         <button class="btns" onclick="createRect(canvas)">Rect</button>
         <button class="btns" onclick="createCirc(canvas)">Circ</button>
       </div>
+      <div class="objectBtns">
+        <button class="btns" onclick="groupObjects(canvas, group, true)">
+          Group
+        </button>
+        <button class="btns" onclick="groupObjects(canvas, group, false)">
+          Ungroup
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <p>Upload Image</p>
+      <input id="myImg" type="file" accept="image/*" />
     </div>
 
     <script src="./lib/fabric.min.js"></script>

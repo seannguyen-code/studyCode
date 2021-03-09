@@ -124,12 +124,23 @@ const setColorListener = () => {
   });
 };
 
-const clearCanvas = (canvas) => {
+const clearCanvas = (canvas, state) => {
+  state.val = canvas.toSVG();
   canvas.getObjects().forEach((obj) => {
     if (obj !== canvas.backgroundImage) {
       canvas.remove(obj);
     }
   });
+};
+
+const restoreCanvas = (canvas, state, bgURL) => {
+  if (state.val) {
+    fabric.loadSVGFromString(state.val, (objs) => {
+      objs = objs.filter((o) => o["xlink:href"] !== bgURL);
+      canvas.add(...objs);
+      canvas.requestRenderAll();
+    });
+  }
 };
 
 const createLine = (canvas) => {
@@ -142,6 +153,15 @@ const createLine = (canvas) => {
   });
   canvas.add(line);
   canvas.renderAll();
+
+  line.on("selected", () => {
+    line.set("stroke", "white");
+    canvas.renderAll();
+  });
+  line.on("deselected", () => {
+    line.set("stroke", "red");
+    canvas.renderAll();
+  });
 };
 
 const createRect = (canvas) => {
@@ -212,11 +232,45 @@ const createCirc = (canvas) => {
   });
 };
 
+const groupObjects = (canvas, group, shouldGroup) => {
+  if (shouldGroup) {
+    const objs = canvas.getObjects();
+    group.val = new fabric.Group(objs, { cornerColor: "red" });
+    clearCanvas(canvas, svgState);
+    canvas.add(group.val);
+    canvas.requestRenderAll();
+  } else {
+    group.val.destroy();
+    const oldGroup = group.val.getObjects();
+    canvas.remove(group.val, svgState);
+    canvas.add(...oldGroup);
+    group.val = null;
+    canvas.requestRenderAll();
+  }
+};
+
 // ---------------------------- **** ---------------------
 // Runtime
+const imgAdded = (e) => {
+  const upload = document.getElementById("myImg");
+  const file = upload.files[0];
+  const reader = new FileReader();
+
+  reader.readAsDataURL(file);
+
+  reader.addEventListener("load", () => {
+    fabric.Image.fromURL(reader.result, (img) => {
+      canvas.add(img);
+      canvas.requestRenderAll();
+    });
+  });
+};
 const canvas = initCanvas("canvas");
+const svgState = {};
+const bgURL = "https://picsum.photos/500";
 let mousePressed = false;
 let color = "#000000";
+let group = {};
 let point1;
 
 // Modes
@@ -226,8 +280,11 @@ const modes = {
   drawing: "drawing",
 };
 
-setBackground("https://picsum.photos/500", canvas);
+setBackground(bgURL, canvas);
 
 setPanEvents(canvas);
 
 setColorListener();
+
+const inputFile = document.getElementById("myImg");
+inputFile.addEventListener("change", imgAdded);
