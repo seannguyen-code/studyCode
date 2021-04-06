@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, ToggleButton } from "react-bootstrap";
 import { Image, Stage, Layer, Transformer, Line } from "react-konva";
+import { ChromePicker } from "react-color";
 import useImage from "use-image";
 
 const BackGroundImage = () => {
@@ -79,6 +80,9 @@ const initialLines = [
 const App = () => {
   const [lines, setLines] = useState(initialLines);
   const [selectedId, selectShape] = useState(null);
+  const [stokeWidth, setStokeWidth] = useState(5);
+  const [color, setColor] = useState("#fff");
+  const [showColorPicker, setshowColorPicker] = useState(false);
 
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
@@ -91,29 +95,49 @@ const App = () => {
   return (
     <Container fluid>
       <Row>
-        <Col>
-          <Button
-            variant="dark"
-            onClick={() => {
-              const newLines = [
-                ...lines,
-                {
-                  id: `line${lines.length + 1}`,
-                  points: [100, 100, 350, 100],
-                  strokeWidth: 5,
-                  stroke: "black",
-                },
-              ];
-              setLines(newLines);
-              console.log(newLines);
+        <Button
+          variant="dark"
+          onClick={() => {
+            const newLines = [
+              ...lines,
+              {
+                id: `line${lines.length + 1}`,
+                points: [100, 100, 350, 100],
+                strokeWidth: parseInt(stokeWidth),
+                stroke: color,
+              },
+            ];
+            console.log(newLines);
+            setLines(newLines);
+            // console.log(newLines);
+          }}
+        >
+          Add A Line
+        </Button>
+
+        <input
+          value={stokeWidth}
+          onChange={(e) => setStokeWidth(e.target.value)}
+          type="number"
+        />
+        <Button
+          variant="secondary"
+          onClick={() =>
+            setshowColorPicker((showColorPicker) => !showColorPicker)
+          }
+        >
+          {showColorPicker ? "Close Picker" : "Pick a color"}
+        </Button>
+        {showColorPicker && (
+          <ChromePicker
+            color={color}
+            onChange={(updatedColor) => {
+              setColor(updatedColor.hex);
             }}
-          >
-            Add A Line
-          </Button>
-        </Col>
-        <Col>
-          <Button variant="primary">Clear Canvas</Button>
-        </Col>
+          />
+        )}
+
+        <Button variant="primary">Clear Canvas</Button>
       </Row>
       <Row>
         <Stage
