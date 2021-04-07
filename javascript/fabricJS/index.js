@@ -13,7 +13,7 @@
 
 const initCanvas = (id) => {
   return new fabric.Canvas(id, {
-    width: 500,
+    width: 1500,
     height: 500,
     selection: false,
   });
@@ -267,7 +267,7 @@ const imgAdded = (e) => {
 };
 const canvas = initCanvas("canvas");
 const svgState = {};
-const bgURL = "https://picsum.photos/500";
+const bgURL = "https://picsum.photos/1500/500";
 let mousePressed = false;
 let color = "#000000";
 let group = {};

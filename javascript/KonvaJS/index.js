@@ -19,8 +19,27 @@ var circle = new Konva.Circle({
   draggable: true,
 });
 
+var circle2 = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: "blue",
+  stroke: "black",
+  strokeWidth: 4,
+  draggable: true,
+});
+
+// events
+// circle.on("wheel", function () {
+//   var mousePos = stage.getPointerPosition();
+//   var x = mousePos.x - 190;
+//   var y = mousePos.y - 40;
+//   console.log("x: " + x + ", y: " + y);
+// });
+
 // add the shape to the layer
 layer.add(circle);
+layer.add(circle2);
 
 // add the layer to the stage
 stage.add(layer);
