@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import Test from "./Test";
 import Rectangles from "./Rect";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    {/* <Test /> */}
     {/* <Rectangles /> */}
   </React.StrictMode>,
   document.getElementById("root")

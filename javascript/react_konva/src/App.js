@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import { Container, Row, Col, Button, ToggleButton } from "react-bootstrap";
+import { Fragment, useRef, useEffect, useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { Image, Stage, Layer, Transformer, Line } from "react-konva";
 import { ChromePicker } from "react-color";
 import useImage from "use-image";
@@ -22,7 +22,7 @@ const Lines = ({ shapeProps, isSelected, onSelect, onChange }) => {
   }, [isSelected]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Line
         onClick={onSelect}
         onTap={onSelect}
@@ -63,18 +63,18 @@ const Lines = ({ shapeProps, isSelected, onSelect, onChange }) => {
           }}
         />
       )}
-    </React.Fragment>
+    </Fragment>
   );
 };
 
 const initialLines = [
-  { id: "line1", points: [50, 50, 250, 50], strokeWidth: 5, stroke: "green" },
-  {
-    id: "line2",
-    points: [100, 100, 350, 100],
-    strokeWidth: 15,
-    stroke: "blue",
-  },
+  // { id: "line1", points: [50, 50, 250, 50], strokeWidth: 5, stroke: "green" },
+  // {
+  //   id: "line2",
+  //   points: [100, 100, 350, 100],
+  //   strokeWidth: 15,
+  //   stroke: "blue",
+  // },
 ];
 
 const App = () => {
@@ -94,7 +94,7 @@ const App = () => {
 
   return (
     <Container fluid>
-      <Row>
+      <Row className="mb-2 mt-2">
         <Button
           variant="dark"
           onClick={() => {
@@ -107,37 +107,52 @@ const App = () => {
                 stroke: color,
               },
             ];
-            console.log(newLines);
             setLines(newLines);
-            // console.log(newLines);
           }}
         >
           Add A Line
         </Button>
-
         <input
           value={stokeWidth}
           onChange={(e) => setStokeWidth(e.target.value)}
           type="number"
         />
-        <Button
-          variant="secondary"
-          onClick={() =>
-            setshowColorPicker((showColorPicker) => !showColorPicker)
-          }
-        >
-          {showColorPicker ? "Close Picker" : "Pick a color"}
-        </Button>
-        {showColorPicker && (
-          <ChromePicker
-            color={color}
-            onChange={(updatedColor) => {
-              setColor(updatedColor.hex);
-            }}
-          />
-        )}
+        <Col>
+          <Button
+            variant="secondary"
+            onClick={() =>
+              setshowColorPicker((showColorPicker) => !showColorPicker)
+            }
+          >
+            {showColorPicker ? "Close Picker" : "Pick a color"}
+          </Button>
+          {showColorPicker && (
+            <ChromePicker
+              color={color}
+              onChange={(updatedColor) => {
+                setColor(updatedColor.hex);
+              }}
+            />
+          )}
+        </Col>
 
-        <Button variant="primary">Clear Canvas</Button>
+        <Button
+          variant="warning"
+          onClick={() => {
+            const newLines = lines.filter((line) => line.id !== selectedId);
+            setLines(newLines);
+          }}
+        >
+          Delete selected Line
+        </Button>
+        <Button
+          variant="danger"
+          onClick={() => {
+            setLines([]);
+          }}
+        >
+          Clear Canvas
+        </Button>
       </Row>
       <Row>
         <Stage
