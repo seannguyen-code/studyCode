@@ -1,12 +1,68 @@
-import { Fragment, useRef, useEffect, useState } from "react";
+import { Fragment, useRef, useEffect, useState, useLayoutEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Image, Stage, Layer, Transformer, Line } from "react-konva";
 import { ChromePicker } from "react-color";
 import useImage from "use-image";
+import Magnifier from "react-magnifier";
 
-const BackGroundImage = () => {
+const BackGroundImage = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const [image] = useImage("https://picsum.photos/500");
-  return <Image draggable image={image} />;
+  const shapeRef = useRef();
+  const trRef = useRef();
+
+  useLayoutEffect(() => {
+    shapeRef.current.cache();
+  }, [image]);
+
+  useEffect(() => {
+    if (isSelected) {
+      // we need to attach transformer manually
+      trRef.current.setNode(shapeRef.current);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [isSelected]);
+
+  return (
+    <Fragment>
+      <Image
+        image={image}
+        onClick={onSelect}
+        ref={shapeRef}
+        {...shapeProps}
+        draggable
+        onDragEnd={(e) => {
+          onChange({
+            ...shapeProps,
+            x: e.target.x(),
+            y: e.target.y(),
+          });
+        }}
+        onTransformEnd={(e) => {
+          const node = shapeRef.current;
+
+          onChange({
+            ...shapeProps,
+            x: node.x(),
+            y: node.y(),
+            scaleX: node.scaleX(),
+            scaleY: node.scaleY(),
+          });
+        }}
+      />
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            // limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
+      )}
+    </Fragment>
+  );
 };
 
 const Lines = ({ shapeProps, isSelected, onSelect, onChange }) => {
@@ -67,6 +123,18 @@ const Lines = ({ shapeProps, isSelected, onSelect, onChange }) => {
   );
 };
 
+const initialImage = [
+  {
+    x: 10,
+    y: 10,
+    width: 500,
+    height: 500,
+    scaleX: 1,
+    scaleY: 1,
+    id: "img1",
+  },
+];
+
 const initialLines = [
   // { id: "line1", points: [50, 50, 250, 50], strokeWidth: 5, stroke: "green" },
   // {
@@ -79,6 +147,7 @@ const initialLines = [
 
 const App = () => {
   const [lines, setLines] = useState(initialLines);
+  const [images, setImages] = useState(initialImage);
   const [selectedId, selectShape] = useState(null);
   const [stokeWidth, setStokeWidth] = useState(5);
   const [color, setColor] = useState("#fff");
@@ -101,12 +170,13 @@ const App = () => {
             const newLines = [
               ...lines,
               {
-                id: `line${lines.length + 1}`,
+                id: `line${Math.floor(Math.random() * 1000) + 1}`,
                 points: [100, 100, 350, 100],
                 strokeWidth: parseInt(stokeWidth),
                 stroke: color,
               },
             ];
+            console.log(newLines);
             setLines(newLines);
           }}
         >
@@ -114,7 +184,11 @@ const App = () => {
         </Button>
         <input
           value={stokeWidth}
-          onChange={(e) => setStokeWidth(e.target.value)}
+          onChange={(e) => {
+            var newVal = e.target.value;
+            if (newVal > 20) newVal = 10;
+            setStokeWidth(newVal);
+          }}
           type="number"
         />
         <Col>
@@ -164,7 +238,24 @@ const App = () => {
           onTouchStart={checkDeselect}
         >
           <Layer>
-            <BackGroundImage />
+            {images.map((img, i) => {
+              return (
+                <BackGroundImage
+                  key={i}
+                  shapeProps={img}
+                  isSelected={img.id === selectedId}
+                  onSelect={() => {
+                    selectShape(img.id);
+                  }}
+                  onChange={(newAttrs) => {
+                    const imgs = images.slice();
+                    imgs[i] = newAttrs;
+                    setImages(imgs);
+                  }}
+                />
+              );
+            })}
+
             {lines.map((line, i) => {
               return (
                 <Lines
