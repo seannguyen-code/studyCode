@@ -5,7 +5,7 @@ import { ChromePicker } from "react-color";
 import useImage from "use-image";
 import Magnifier from "react-magnifier";
 
-const BackGroundImage = ({ shapeProps, isSelected, onSelect, onChange }) => {
+const DummyImage = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const [image] = useImage("https://picsum.photos/500");
   const shapeRef = useRef();
   const trRef = useRef();
@@ -127,8 +127,8 @@ const initialImage = [
   {
     x: 10,
     y: 10,
-    width: 500,
-    height: 500,
+    // width: 500,
+    // height: 500,
     scaleX: 1,
     scaleY: 1,
     id: "img1",
@@ -182,6 +182,7 @@ const App = () => {
         >
           Add A Line
         </Button>
+
         <input
           value={stokeWidth}
           onChange={(e) => {
@@ -191,6 +192,7 @@ const App = () => {
           }}
           type="number"
         />
+
         <Col>
           <Button
             variant="secondary"
@@ -228,6 +230,7 @@ const App = () => {
           Clear Canvas
         </Button>
       </Row>
+
       <Row>
         <Stage
           style={{ backgroundColor: "#ffe6e6" }}
@@ -240,7 +243,7 @@ const App = () => {
           <Layer>
             {images.map((img, i) => {
               return (
-                <BackGroundImage
+                <DummyImage
                   key={i}
                   shapeProps={img}
                   isSelected={img.id === selectedId}
