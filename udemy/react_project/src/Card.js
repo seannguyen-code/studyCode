@@ -9,10 +9,10 @@ const Card = (props) => {
           <b>{props.name}</b>
         </h4>
         <p>{props.title}</p>
-        <input type="text" value={props.name} onChange={props.onChangeInput} />
+        <input type="text" value={props.name} onChange={props.onChangeName} />
         <p>
-          <button onClick={props.onChangeName} className="button">
-            Change Name
+          <button className="button button3" onClick={props.onDelete}>
+            Delete
           </button>
         </p>
         <div>{props.children}</div>

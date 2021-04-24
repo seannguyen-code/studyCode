@@ -4,39 +4,57 @@ import Card from "./Card";
 import faker from "faker";
 
 function App() {
-  const [name, setName] = useState("Gojo Satoru");
+  const [cards, setCards] = useState([
+    {
+      id: Math.floor(Math.random() * 100) + 1,
+      name: "Sukuna",
+      avatar: "https://picsum.photos/400",
+      title: "Curse",
+    },
+    {
+      id: Math.floor(Math.random() * 100) + 1,
+      name: "Gojo Satoru",
+      avatar: "https://picsum.photos/400",
+      title: "Soccerer",
+    },
+    {
+      id: Math.floor(Math.random() * 100) + 1,
+      name: "Toji Zennin",
+      avatar: "https://picsum.photos/400",
+      title: "InHuman",
+    },
+  ]);
   const [showCard, setshowCard] = useState(true);
 
-  const changeNameHandler = () => {
-    setName("Sukuna");
-  };
-
-  const changeInputHandler = (e) => {
-    setName(e.target.value);
+  const deleteCardHandler = (cardIndex) => {
+    const cards_copy = [...cards];
+    cards_copy.splice(cardIndex, 1);
+    setCards(cards_copy);
   };
 
   const toggleShowCard = () => {
     setshowCard(!showCard);
   };
 
-  const btnsMarkup = (
-    <div>
-      <button className="button button2">YES</button>
-      <button className="button button3">NO</button>
-    </div>
-  );
+  const changeNameHandler = (e, id) => {
+    const cardIndex = cards.findIndex((card) => card.id === id);
+    const copy_cards = [...cards];
+    copy_cards[cardIndex].name = e.target.value;
+    setCards(copy_cards);
+  };
 
-  const cardsMarkup = showCard && (
-    <Card
-      name={name}
-      title="Forward Communications Director"
-      avatar="https://picsum.photos/400"
-      onChangeName={changeNameHandler}
-      onChangeInput={changeInputHandler}
-    >
-      {btnsMarkup}
-    </Card>
-  );
+  const cardsMarkup =
+    showCard &&
+    cards.map((card, index) => (
+      <Card
+        key={card.id}
+        name={card.name}
+        title={card.title}
+        avatar={card.avatar}
+        onDelete={() => deleteCardHandler(index)}
+        onChangeName={(e) => changeNameHandler(e, card.id)}
+      />
+    ));
 
   return (
     <div className="App">
