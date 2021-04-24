@@ -1,7 +1,13 @@
 import { useState } from "react";
 import "./App.css";
 import Card from "./Card";
-import faker from "faker";
+import { ThemeProvider } from "styled-components";
+import Button from "./element/Button";
+
+const theme = {
+  primary: "#4caf50",
+  mango: "yellow",
+};
 
 function App() {
   const [cards, setCards] = useState([
@@ -57,12 +63,14 @@ function App() {
     ));
 
   return (
-    <div className="App">
-      <button className="button" onClick={toggleShowCard}>
-        Toggle Show/Hide
-      </button>
-      {cardsMarkup}
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Button color="primary" onClick={toggleShowCard} length={cards.length}>
+          Toggle Show/Hide
+        </Button>
+        {cardsMarkup}
+      </div>
+    </ThemeProvider>
   );
 }
 

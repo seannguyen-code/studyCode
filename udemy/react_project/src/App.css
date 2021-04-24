@@ -32,3 +32,16 @@
 
 .button2 {background-color: #008CBA;} /* Blue */
 .button3 {background-color: #f44336;} /* Red */ 
+
+.text {
+  font: bold;
+  color: black;
+}
+
+.pink {
+  background-color: pink;
+}
+
+.red {
+  background-color: red;
+}

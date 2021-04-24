@@ -233,7 +233,7 @@ const App = () => {
 
       <Row>
         <Stage
-          style={{ backgroundColor: "#ffe6e6" }}
+          style={{ backgroundColor: "#F0E3CA" }}
           // opacity={0.8}
           width={window.outerWidth}
           height={window.outerHeight}
