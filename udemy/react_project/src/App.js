@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Component } from "react";
 import "./App.css";
 import Card from "./Card";
 import { ThemeProvider } from "styled-components";
@@ -9,69 +9,80 @@ const theme = {
   mango: "yellow",
 };
 
-function App() {
-  const [cards, setCards] = useState([
-    {
-      id: Math.floor(Math.random() * 100) + 1,
-      name: "Sukuna",
-      avatar: "https://picsum.photos/400",
-      title: "Curse",
-    },
-    {
-      id: Math.floor(Math.random() * 100) + 1,
-      name: "Gojo Satoru",
-      avatar: "https://picsum.photos/400",
-      title: "Soccerer",
-    },
-    {
-      id: Math.floor(Math.random() * 100) + 1,
-      name: "Toji Zennin",
-      avatar: "https://picsum.photos/400",
-      title: "InHuman",
-    },
-  ]);
-  const [showCard, setshowCard] = useState(true);
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cards: [
+        {
+          id: Math.floor(Math.random() * 100) + 1,
+          name: "Sukuna",
+          avatar: "https://picsum.photos/400",
+          title: "Curse",
+        },
+        {
+          id: Math.floor(Math.random() * 100) + 1,
+          name: "Gojo Satoru",
+          avatar: "https://picsum.photos/400",
+          title: "Soccerer",
+        },
+        {
+          id: Math.floor(Math.random() * 100) + 1,
+          name: "Toji Zennin",
+          avatar: "https://picsum.photos/400",
+          title: "InHuman",
+        },
+      ],
+      showCard: true,
+    };
+  }
 
-  const deleteCardHandler = (cardIndex) => {
-    const cards_copy = [...cards];
+  deleteCardHandler = (cardIndex) => {
+    const cards_copy = [...this.state.cards];
     cards_copy.splice(cardIndex, 1);
-    setCards(cards_copy);
+    this.setState({ cards: cards_copy });
   };
 
-  const toggleShowCard = () => {
-    setshowCard(!showCard);
+  toggleShowCard = () => {
+    this.setState({ showCard: !this.state.showCard });
   };
 
-  const changeNameHandler = (e, id) => {
-    const cardIndex = cards.findIndex((card) => card.id === id);
-    const copy_cards = [...cards];
+  changeNameHandler = (e, id) => {
+    const cardIndex = this.state.cards.findIndex((card) => card.id === id);
+    const copy_cards = [...this.state.cards];
     copy_cards[cardIndex].name = e.target.value;
-    setCards(copy_cards);
+    this.setState({ cards: copy_cards });
   };
 
-  const cardsMarkup =
-    showCard &&
-    cards.map((card, index) => (
-      <Card
-        key={card.id}
-        name={card.name}
-        title={card.title}
-        avatar={card.avatar}
-        onDelete={() => deleteCardHandler(index)}
-        onChangeName={(e) => changeNameHandler(e, card.id)}
-      />
-    ));
+  render() {
+    const cardsMarkup =
+      this.state.showCard &&
+      this.state.cards.map((card, index) => (
+        <Card
+          key={card.id}
+          name={card.name}
+          title={card.title}
+          avatar={card.avatar}
+          onDelete={() => this.deleteCardHandler(index)}
+          onChangeName={(e) => this.changeNameHandler(e, card.id)}
+        />
+      ));
 
-  return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <Button color="primary" onClick={toggleShowCard} length={cards.length}>
-          Toggle Show/Hide
-        </Button>
-        {cardsMarkup}
-      </div>
-    </ThemeProvider>
-  );
+    return (
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Button
+            color="primary"
+            onClick={this.toggleShowCard}
+            length={this.state.cards.length}
+          >
+            Toggle Show/Hide
+          </Button>
+          {cardsMarkup}
+        </div>
+      </ThemeProvider>
+    );
+  }
 }
 
 export default App;
