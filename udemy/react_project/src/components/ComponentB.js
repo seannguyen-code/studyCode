@@ -1,14 +1,10 @@
-import { useContext } from "react";
 import { Button, ButtonGroup, Badge } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { CounterContext } from "../App";
-
-import ComponentC from "./ComponentC";
+import useCounter from "../customHooks/useCounter";
 
 const ComponentB = () => {
-  const countercontext = useContext(CounterContext);
-  const { counter, dispatch } = countercontext;
+  const [counter, increment, decrement, reset] = useCounter(10);
 
   return (
     <div>
@@ -19,18 +15,16 @@ const ComponentB = () => {
       </ButtonGroup>
       <p></p>
       <ButtonGroup>
-        <Button color="dark" onClick={() => dispatch({ type: "+" })}>
+        <Button color="dark" onClick={increment}>
           +
         </Button>
-        <Button color="dark" onClick={() => dispatch({ type: "-" })}>
+        <Button color="dark" onClick={decrement}>
           -
         </Button>
-        <Button color="danger" onClick={() => dispatch({ type: "reset" })}>
+        <Button color="danger" onClick={reset}>
           Reset
         </Button>
       </ButtonGroup>
-
-      <ComponentC />
     </div>
   );
 };
