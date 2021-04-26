@@ -1,14 +1,35 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
+import { Button, ButtonGroup, Badge } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import { CounterContext } from "../App";
 
 import ComponentC from "./ComponentC";
-import { NameContext, ColorContext } from "../App";
+
 const ComponentB = () => {
-  const user = useContext(NameContext);
-  const color = useContext(ColorContext);
+  const countercontext = useContext(CounterContext);
+  const { counter, dispatch } = countercontext;
 
   return (
     <div>
-      <h2>B and {`${user} + ${color}`}</h2>
+      <ButtonGroup>
+        <Button color="primary" outline>
+          Component B Counter<Badge color="secondary">{counter}</Badge>
+        </Button>
+      </ButtonGroup>
+      <p></p>
+      <ButtonGroup>
+        <Button color="dark" onClick={() => dispatch({ type: "+" })}>
+          +
+        </Button>
+        <Button color="dark" onClick={() => dispatch({ type: "-" })}>
+          -
+        </Button>
+        <Button color="danger" onClick={() => dispatch({ type: "reset" })}>
+          Reset
+        </Button>
+      </ButtonGroup>
+
       <ComponentC />
     </div>
   );

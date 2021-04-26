@@ -1,23 +1,33 @@
-import axios from "axios";
-import { useState, useEffect, useContext, createContext } from "react";
-import { ThemeProvider } from "styled-components";
-
-import "./App.css";
-import Card from "./Card";
+import { useReducer, createContext } from "react";
 
 import ComponentA from "./components/ComponentA";
+import "./App.css";
 
-export const NameContext = createContext();
-export const ColorContext = createContext();
+const initState = {
+  counter: 0,
+};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "+":
+      return { ...state, counter: state.counter + 1 };
+    case "-":
+      return { ...state, counter: state.counter - 1 };
+    case "reset":
+      return initState;
+    default:
+      return state;
+  }
+};
+
+export const CounterContext = createContext();
 
 const App = () => {
+  const [state, dispatch] = useReducer(reducer, initState);
   return (
     <div className="App">
-      <NameContext.Provider value={"Testing"}>
-        <ColorContext.Provider value={"red"}>
-          <ComponentA />
-        </ColorContext.Provider>
-      </NameContext.Provider>
+      <CounterContext.Provider value={{ counter: state.counter, dispatch }}>
+        <ComponentA />
+      </CounterContext.Provider>
     </div>
   );
 };
