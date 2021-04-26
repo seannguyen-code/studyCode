@@ -1,78 +1,63 @@
-import { useReducer, createContext } from "react";
+import axios from "axios";
+import { useEffect, useReducer } from "react";
+import { Badge, ListGroup, ListGroupItem } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import ComponentA from "./components/ComponentA";
 import "./App.css";
 
-const initState = {
-  counter: 0,
+const initialState = {
+  loading: true,
+  error: "",
+  todos: [],
 };
-const reducer = (state, action) => {
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "+":
-      return { ...state, counter: state.counter + 1 };
-    case "-":
-      return { ...state, counter: state.counter - 1 };
-    case "reset":
-      return initState;
+    case "SET_DATA":
+      return {
+        loading: false,
+        error: "",
+        todos: action.payload,
+      };
+
+    case "SET_ERROR":
+      return {
+        loading: false,
+        error: "ERROR",
+        todos: [],
+      };
+
     default:
       return state;
   }
 };
 
-export const CounterContext = createContext();
-
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initState);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos")
+      .then((res) => dispatch({ type: "SET_DATA", payload: res.data }))
+      .catch((err) => dispatch({ type: "SET_ERROR", payload: [] }));
+  }, []);
+
+  const listMarkup = (
+    <ListGroup>
+      {state.todos.map((todo) => (
+        <ListGroupItem key={todo.id}>
+          {todo.title}{" "}
+          <Badge color={todo.completed ? "success" : "danger"}>Status</Badge>{" "}
+        </ListGroupItem>
+      ))}
+    </ListGroup>
+  );
+
   return (
     <div className="App">
-      <CounterContext.Provider value={{ counter: state.counter, dispatch }}>
-        <ComponentA />
-      </CounterContext.Provider>
+      {state.loading ? "Loading" : state.error ? state.error : listMarkup}
+      {}
     </div>
   );
 };
-
-// const theme = {
-//   primary: "#4caf50",
-//   mango: "yellow",
-// };
-
-// function App() {
-//   const [card, setCard] = useState([]);
-//   const [id, setId] = useState(1);
-//   useEffect(() => {
-//     axios
-//       .get(`https://jsonplaceholder.typicode.com/users/${id}`)
-//       .then((res) => {
-//         console.log(res.data);
-//         setCard(res.data);
-//       });
-//   }, [id]);
-
-//   const changeNameHandler = (e) => {
-//     const copy_cards = { ...card };
-//     copy_cards.name = e.target.value;
-//     setCard(copy_cards);
-//   };
-
-//   return (
-//     <ThemeProvider theme={theme}>
-//       <div className="App">
-//         <input
-//           type="number"
-//           value={id}
-//           onChange={(e) => setId(e.target.value)}
-//         />
-//         <Card
-//           key={card.id}
-//           name={card.name}
-//           phone={card.phone}
-//           avatar={card.avatar}
-//           onChangeName={changeNameHandler}
-//         />
-//       </div>
-//     </ThemeProvider>
-//   );
-// }
 
 export default App;
