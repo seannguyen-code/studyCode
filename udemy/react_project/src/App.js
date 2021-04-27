@@ -1,28 +1,24 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { increment, decrement, auth } from "./actions";
 
 import "./App.css";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Post from "./components/Post";
-import PageNotFound from "./components/PageNotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
+  const count = useSelector((state) => state.count);
+  const login = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+
+  const authBtn = login ? "You are IN" : "You are OUT";
+
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <ProtectedRoute path="/about" component={About} />
-          <ProtectedRoute path="/contact" component={Contact} />
-          <ProtectedRoute path="/posts/:post_id" component={Post} />
-          <Route component={PageNotFound} />
-        </Switch>
-      </div>
-    </Router>
+    <div className="App">
+      <h1>Counter: {count}</h1>
+      <button onClick={() => dispatch(increment())}>+</button>
+      <button onClick={() => dispatch(decrement())}>-</button>
+
+      <h1>{authBtn}</h1>
+      <button onClick={() => dispatch(auth())}>Login</button>
+    </div>
   );
 };
 
