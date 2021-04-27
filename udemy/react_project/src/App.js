@@ -7,6 +7,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Post from "./components/Post";
 import PageNotFound from "./components/PageNotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -15,9 +16,9 @@ const App = () => {
         <Navbar />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/posts/:post_id" component={Post} />
+          <ProtectedRoute path="/about" component={About} />
+          <ProtectedRoute path="/contact" component={Contact} />
+          <ProtectedRoute path="/posts/:post_id" component={Post} />
           <Route component={PageNotFound} />
         </Switch>
       </div>
