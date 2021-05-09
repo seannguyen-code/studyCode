@@ -1,0 +1,53 @@
+@import './variables';
+
+@function get-weight($weight-name){
+    @return map-get($font-weights , $weight-name);
+}
+
+@mixin flexCeneter($direction) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: $direction;
+}
+
+@mixin theme($light-theme: true) {
+    @if $light-theme {
+        background: lighten($prime-color, 100%);
+        color: darken($text-color, 100%);
+    }
+}
+
+@mixin mobile {
+    @media (max-width: $mobile) {
+        @content;
+    }
+}
+
+body {
+    background-color: $prime-color;
+}
+
+.main {
+    @include flexCeneter(row);
+    width: 80%;
+    margin: 0 auto;
+
+    p {
+        color: white;
+        font-weight: get-weight(regular);
+
+        &:hover {
+            color: yellow;
+        }
+    }
+
+    @include mobile {
+        flex-direction: column;
+    }
+}
+
+.light {
+    @include theme(false);
+} 
+
