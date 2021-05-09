@@ -1,53 +1,58 @@
-@import './variables';
+@import 'config';
+@import 'home';
+@import 'menu';
 
-@function get-weight($weight-name){
-    @return map-get($font-weights , $weight-name);
-}
-
-@mixin flexCeneter($direction) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: $direction;
-}
-
-@mixin theme($light-theme: true) {
-    @if $light-theme {
-        background: lighten($prime-color, 100%);
-        color: darken($text-color, 100%);
-    }
-}
-
-@mixin mobile {
-    @media (max-width: $mobile) {
-        @content;
-    }
-}
 
 body {
-    background-color: $prime-color;
+    background: $primary-color;
+    color: set-text-color($primary-color);
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1;
 }
 
-.main {
-    @include flexCeneter(row);
-    width: 80%;
-    margin: 0 auto;
+h1, h2, h3 {
+    font-weight: 400;
+}
 
-    p {
-        color: white;
-        font-weight: get-weight(regular);
+a {
+    color: set-text-color($primary-color);
+    text-decoration: none;
+}
 
-        &:hover {
-            color: yellow;
+header {
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    padding: 1rem;
+}
+
+main {
+    height: 100%;
+    width: 100%;
+
+    .social-icons {
+        position: fixed;
+        bottom: 1rem;
+        left: 1rem;
+
+        a {
+            padding: 0.4rem;
+            @include transition-ease;
+
+            &:hover {
+                color: $secondary-color;
+            }
         }
     }
-
-    @include mobile {
-        flex-direction: column;
-    }
 }
 
-.light {
-    @include theme(false);
-} 
-
+footer {
+    font-size: 1rem;
+    position: fixed;
+    bottom: 0.4rem;
+    right: 1rem;
+    text-align: right;
+    padding: 1rem;
+    color: set-text-color($primary-color);
+}
